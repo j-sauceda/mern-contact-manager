@@ -18,16 +18,19 @@ function Dashboard() {
 
   const { user } = useSelector((state) => state.auth);
   const { contacts, isLoading, isError, message } = useSelector((state) => state.contacts);
-    
+
+  // text-filter variable
   const filterByName = (input) => {
     let filteredContacts = contacts.filter(contact => contact.name.toLowerCase().includes(input.toLowerCase()));
     setFilteredContacts(filteredContacts);
   }
 
+  // to update/initialize text-filter upon contact CRUD operations
   useEffect(() => {
     setFilteredContacts(contacts);
   },[contacts]);
   
+  // updates redux states
   useEffect(() => {
     if (isError) { console.log(message); }
     // if user not logged in
@@ -38,10 +41,11 @@ function Dashboard() {
     return () => dispatch(reset());
   }, [user, navigate, isError, message, dispatch]);
   
+  // filter state variables
   const [relationSelector, setRelationSelector] = useState('');
   const [filteredContacts, setFilteredContacts] = useState([]);
   
-  if (isLoading) return ( <Spinner /> );
+  if (isLoading) return <Spinner />;
 
   return (
     <div className="container">
