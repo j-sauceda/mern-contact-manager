@@ -16,30 +16,32 @@ function Dashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [relationSelector, setRelationSelector] = useState('');
-  const [filteredContacts, setFilteredContacts] = useState([]);
-
   const { user } = useSelector((state) => state.auth);
-  const { contacts, isLoading, isError, message } = useSelector(
-    (state) => state.contacts
-  );
-
-  const filterNames = (e) => {
-    let filteredContacts = contacts.filter(contact => contact.name.toLowerCase().includes(e.target.value.toLowerCase()));
+  const { contacts, isLoading, isError, message } = useSelector((state) => state.contacts);
+    
+  const filterByName = (input) => {
+    let filteredContacts = contacts.filter(contact => contact.name.toLowerCase().includes(input.toLowerCase()));
     setFilteredContacts(filteredContacts);
   }
 
+  useEffect(() => {
+    setFilteredContacts(contacts);
+  },[contacts]);
+  
   useEffect(() => {
     if (isError) { console.log(message); }
     // if user not logged in
     if (!user) { navigate('/login'); }
     // get contacts for logged in user
     dispatch(getContacts());
-
+    
     return () => dispatch(reset());
   }, [user, navigate, isError, message, dispatch]);
-
-  if (isLoading) return <Spinner />
+  
+  const [relationSelector, setRelationSelector] = useState('');
+  const [filteredContacts, setFilteredContacts] = useState([]);
+  
+  if (isLoading) return ( <Spinner /> );
 
   return (
     <div className="container">
@@ -60,7 +62,7 @@ function Dashboard() {
                 id = "searchText"
                 type="text" 
                 placeholder='Search by name'
-                onChange={e => filterNames(e)}
+                onChange={e => filterByName(e.target.value)}
               />
               <span className="icon is-medium is-left">
                 <i className="fa fa-search"></i>
@@ -71,7 +73,7 @@ function Dashboard() {
 
         <div className="container has-text-centered">
           <div className="column has-text-centered">
-            {contacts.length > 0 ? (
+            {(contacts.length > 0) ? (
               <table className='table is-striped is-hoverable is-fullwidth'>
                 <thead>
                   <tr>
@@ -101,23 +103,25 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {document.getElementById('searchText') === null ? (
-                    contacts.map((contact) => (
-                      <ContactItem key={contact._id} contact={contact} relationSelector={relationSelector} />
-                    ))
-                  ) : (
-                    (document.getElementById('searchText') !== null & filteredContacts.length > 0) ? (
-                      filteredContacts.map((contact) => (
+                  { document.getElementById('searchText') === null ? 
+                    (
+                      contacts.map((contact) => (
                         <ContactItem key={contact._id} contact={contact} relationSelector={relationSelector} />
                       ))
                     ) : (
-                      <tr><h3>No contacts match the search</h3></tr>
+                      (document.getElementById('searchText') !== null & filteredContacts.length > 0) ? (
+                        filteredContacts.map((contact) => (
+                          <ContactItem key={contact._id} contact={contact} relationSelector={relationSelector} />
+                        ))
+                      ) : (
+                        <tr><td className='subtitle is-3 is-centered' colSpan='6'>No contacts match the search</td></tr>
+                      )
                     )
-                  ) }
+                  }
                 </tbody>
               </table>
             ) : (
-                <h3>No contacts recorded yet</h3>
+                <div className='subtitle is-3 is-centered'>No contacts recorded yet</div>
             )}
           </div>
         </div>

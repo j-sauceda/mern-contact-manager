@@ -10,6 +10,7 @@ import Register from './pages/Register';
 
 // define App
 function App() {
+
   return (
     <div>
       <Router>

@@ -1,5 +1,5 @@
 // load libraries
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 // load redux slices
@@ -25,17 +25,6 @@ function Header() {
           </button>&nbsp;
         </div>
       </div>
-      {/* <div className="navbar-end">
-        <div className="navbar-item m-3" href="../">
-          <Link to='/' className='subtitle is-5'>
-            <i className="fa-solid fa-suitcase fa-1x"></i>&nbsp;ContactApp
-          </Link>
-        </div>
-      </div> */}
-      {/* navbar-burger */}
-      {/* <button className="navbar-burger" aria-label="menu" aria-expanded="false">
-        <i className='fa-solid fa-person-walking-dashed-line-arrow-right' onClick={onLogout} /> Logout
-      </button> */}
     </nav>
   )
 }

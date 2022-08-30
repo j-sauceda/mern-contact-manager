@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 // load contact components
 import EditContactForm from './EditContactForm';
 import DeleteContactModal from './DeleteContactModal';
@@ -6,7 +8,7 @@ import DeleteContactModal from './DeleteContactModal';
 function ContactItem({ contact, relationSelector }) {
 
   return (
-    <>
+    <Fragment>
       {
         relationSelector === '' ? (
           <tr>
@@ -14,12 +16,8 @@ function ContactItem({ contact, relationSelector }) {
             <td>{ contact.phone }</td>
             <td>{ contact.email }</td>
             <td>{ contact.relation }</td>
-            <td>
-              <EditContactForm contact={contact} />
-            </td>
-            <td>
-              <DeleteContactModal contact={contact} />
-            </td>
+            <td><EditContactForm contact={contact} /></td>
+            <td><DeleteContactModal contact={contact} /></td>
           </tr>
         ): (
           relationSelector === contact.relation ? (
@@ -28,19 +26,15 @@ function ContactItem({ contact, relationSelector }) {
               <td>{ contact.phone }</td>
               <td>{ contact.email }</td>
               <td>{ contact.relation }</td>
-              <td>
-                <EditContactForm contact={contact} />
-              </td>
-              <td>
-                <DeleteContactModal contact={contact} />
-              </td>
+              <td><EditContactForm contact={contact} /></td>
+              <td><DeleteContactModal contact={contact} /></td>
             </tr>
           ) : (
             <></>
           )
         )
       }
-    </>
+    </Fragment>
   )
 }
 
