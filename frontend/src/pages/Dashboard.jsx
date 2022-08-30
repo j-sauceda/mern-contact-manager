@@ -103,19 +103,13 @@ function Dashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  { document.getElementById('searchText') === null ? 
+                  { filteredContacts.length > 0 ? 
                     (
-                      contacts.map((contact) => (
+                      filteredContacts.map((contact) => (
                         <ContactItem key={contact._id} contact={contact} relationSelector={relationSelector} />
                       ))
                     ) : (
-                      (document.getElementById('searchText') !== null & filteredContacts.length > 0) ? (
-                        filteredContacts.map((contact) => (
-                          <ContactItem key={contact._id} contact={contact} relationSelector={relationSelector} />
-                        ))
-                      ) : (
-                        <tr><td className='subtitle is-3 is-centered' colSpan='6'>No contacts match the search</td></tr>
-                      )
+                      <tr><td className='subtitle is-3 is-centered' colSpan='6'>No contacts match the search</td></tr>
                     )
                   }
                 </tbody>
